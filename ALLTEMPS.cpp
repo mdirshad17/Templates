@@ -8,7 +8,7 @@ int fastExpo(int a, int n, int mod) {
   }
   return result;
 }
-
+*******************************************************
 int modInverse(int n, int mod) {
   return fastExpo(n, mod - 2, mod);
 }
@@ -20,13 +20,13 @@ vector<int> factorial(int n) {
 
   return fac;
 }
-
+********************************************************
 int __nCr(int n, int r, vector<int>& Fact, int mod) {
   int ans = (((Fact[n] * modInverse(Fact[r], mod)) % mod)
              * modInverse(Fact[n - r], mod)) % mod;
   return ans;
 }
-
+*********************************************************
 // Ulta dfs
 set<int>g[N];
 set<int>vis;
@@ -45,6 +45,7 @@ int dfs(int u) {
   }
   return sz;
 }
+****************************************************
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 using namespace __gnu_pbds;
@@ -55,7 +56,7 @@ using namespace __gnu_pbds;
 #define smaller(x) order_of_key(x)
 #define kth(x) find_by_order(x)
 
-
+*********************************************************************
 int PhI[maxn];
 void ETF()
 {
@@ -76,6 +77,7 @@ void ETF()
     }
   }
 }
+********************************************************
 int prime[maxn];
 void sieve() {
  
@@ -85,7 +87,8 @@ void sieve() {
       for (int j = 2 * i; j < maxn; j += i)
         prime[j]++;
   }
-}    
+}  
+*****************************************************
 #include <bits/stdc++.h>
 using namespace std;
 #define      M    1000000007
@@ -141,4 +144,48 @@ int32_t main()
 
   return 0;
 }
+// *******************************************************************
+int SGT[4 * N];
+void update(int idx, int s, int e, int si, int val)
+{
+  if (s == e)
+  {
+    SGT[si] += val;
+    return;
+  }
+  int m = (s + e) / 2;
+  if (idx <= m)
+    update(idx, s, m, 2 * si + 1, val);
+  else update(idx, m + 1, e, 2 * si + 2, val);
 
+  SGT[si] = (SGT[2 * si + 1] + SGT[2 * si + 2]);
+}
+int q(int l, int r, int s, int e, int si)
+{
+  if (l > r || l > e || r < s)
+    return 0;
+  if (s >= l && e <= r)
+    return SGT[si];
+  int m = (s + e) / 2;
+  return q(l, r, s, m, 2 * si + 1) + q(l, r, m + 1, e, 2 * si + 2);
+}
+******************************************
+vector<int> parent, size;
+int getp(int u)
+{
+  return (u == parent[u] ? : u : (parent[u] = getp(parent[u])));
+}
+int connect(int u, int v) {
+  u = get(u);
+  v = get(v);
+  if (u == v)
+    return 1;
+
+  if (size[u] < size[v])
+    swap(u, v);
+
+  parent[v] = u;
+  size[u] += size[v];
+  return 0;
+}
+*****************************************
