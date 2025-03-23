@@ -1,3 +1,52 @@
+void dij()
+{
+	vi dp(n + 3, inf);
+	set<vi> st;
+	st.insert({0, 1});
+	vi parent(n + 3, -1);
+	dp[1] = 0;
+	while (!st.empty())
+	{
+		auto it = st.begin();
+		int u = (*it)[1];
+		st.erase(it);
+		// cout << u << " ";
+		for (auto x : adj[u])
+		{
+			int v = x.ff;
+			int w = x.ss;
+			if (dp[v] > (w + dp[u]))
+			{
+				st.erase({dp[v], v});
+				dp[v] = w + dp[u];
+				parent[v] = u;
+				st.insert({dp[v], v});
+			}
+		}
+	}
+	// cout << dp[n] << endl;
+	if (parent[n] == -1 || dp[n] == inf)
+	{
+		cout << -1 << endl;
+		return;
+	} else
+	{
+		int x = n;
+		vi res;
+		while (x != 1)
+		{
+			// cout << x << " ";
+			res.pb(x);
+			x = parent[x];
+		}
+		res.pb(x);
+		reverse(all(res));
+		for (int x : res)
+		{
+			cout << x << " ";
+		}
+	}
+}
 int fastExpo(int a, int n, int mod) {
   int result = 1;
   while ( n > 0) {
